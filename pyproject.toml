@@ -1,0 +1,22 @@
+[project]
+name = "logirisk-ml"
+version = "0.1.0"
+description = ""
+authors = [
+    {name = "Kaung Si Thu",email = "kaungsithu.sallius@gmail.com"}
+]
+requires-python = ">=3.11,<3.14"
+dependencies = [
+    "numpy (>=2.4.2,<3.0.0)",
+    "pandas (>=3.0.1,<4.0.0)"
+]
+
+
+[build-system]
+requires = ["poetry-core>=2.0.0,<3.0.0"]
+build-backend = "poetry.core.masonry.api"
+
+[dependency-groups]
+dev = [
+    "ipykernel (>=7.2.0,<8.0.0)"
+]
