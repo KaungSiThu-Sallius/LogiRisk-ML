@@ -67,9 +67,11 @@ def preprocess(dataset):
     df_filtered['shipping_day'] = df_filtered['shipping_date'].dt.day_name()
 
     df_filtered = df_filtered.drop(['order_date', 'shipping_date'], axis=1)
+    df_filtered = df_filtered.dropna()
 
     df_filtered.to_csv(os.path.join(root_path, 'data/processed/clean_dataset.csv'), index=False)
 
+    print("Dataset is processed and save as CSV.")
     return df_filtered
 
 
@@ -94,6 +96,7 @@ def train_test_split_encode(df):
     joblib.dump(target_encoder, os.path.join(root_path, 'models/target_encoder_v1.joblib'))
     joblib.dump(ordinal_encoder, os.path.join(root_path, 'models/ordinal_encoder_v1.joblib'))
 
+    print("Dataframe is splited into train and test sets.")
     return (X_train_encoded, X_test_encoded, y_train, y_test)
 
 # df = preprocess('DataCoSupplyChainDataset.csv')
