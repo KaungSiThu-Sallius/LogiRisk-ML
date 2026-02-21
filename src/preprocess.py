@@ -5,15 +5,23 @@ from sklearn.model_selection import train_test_split
 from sklearn.preprocessing import OrdinalEncoder
 from category_encoders import TargetEncoder
 import joblib
+import json
+
 
 def preprocess(dataset):
     root_path = os.getcwd()
     raw_dataset = 'data/raw/'+dataset
     df = pd.read_csv(os.path.join(root_path, raw_dataset), encoding='latin1', header=0)
 
+    # df['Customer Zipcode'] = df['Customer Zipcode'].astype('str')
+    df['order_address'] = df['Order City']  + "_" + df['Shipping Mode']
+    # df['customer_address'] = df['Customer Zipcode'] + "_" + df['Customer Country']
+
     rm_cols = [ "Category Name", "Customer Id", "Customer City", "Customer Email", "Customer Fname", "Customer Lname", "Customer Password", "Customer Street", "Customer State",
             "Department Name", "Order Id", "Order Customer Id", "Order Item Cardprod Id", "Order Item Discount Rate", "Order Item Id", "Product Card Id",
-            "Product Description", "Product Image", "Product Name", "Order Zipcode", "Days for shipping (real)", 'Delivery Status', "Order Status"]
+            "Product Description", "Product Image", "Product Name", "Order Zipcode", "Days for shipping (real)", 'Delivery Status', "Order Status", "shipping date (DateOrders)",
+            "Order Item Profit Ratio", "Order Profit Per Order", "Sales per customer", "Order Item Total", "Benefit per order", "Sales", "Latitude", "Longitude",
+            'Customer Zipcode', 'Customer Country', 'Order City', 'Order Country', 'Order State', 'Order Item Discount', 'Order Region']
     
     df_filtered = df.drop(rm_cols, axis=1)
 
@@ -21,52 +29,35 @@ def preprocess(dataset):
         df_filtered['order date (DateOrders)'], 
         format="%m/%d/%Y %H:%M"
     )
-    df_filtered['shipping date (DateOrders)'] = pd.to_datetime(
-        df_filtered['shipping date (DateOrders)'],
-        format="%m/%d/%Y %H:%M"
-    )
+
 
     rename_cols = {
     "Type": "type",
     "Days for shipment (scheduled)": "days_for_shipment_scheduled",
-    "Benefit per order": "benefit_per_order",
-    "Sales per customer": "sales_per_customer",
     "Late_delivery_risk": "late_delivery_risk",
     "Category Id": "category_id",
-    "Customer Country": "customer_country",
     "Customer Segment": "customer_segment",
-    "Customer Zipcode": "customer_zipcode",
     "Department Id": "department_id",
     "Latitude": "latitude",
     "Longitude": "longitude",
     "Market": "market",
-    "Order City": "order_city",
-    "Order Country": "order_country",
     "order date (DateOrders)": "order_date",
-    "Order Item Discount": "order_item_discount",
     "Order Item Product Price": "order_item_product_price",
-    "Order Item Profit Ratio": "order_item_profit_ratio",
     "Order Item Quantity": "order_item_quantity",
-    "Sales": "sales",
-    "Order Item Total": "order_item_total",
-    "Order Profit Per Order": "order_profit_per_order",
-    "Order Region": "order_region",
-    "Order State": "order_state",
     "Product Category Id": "product_category_id",
     "Product Price": "product_price",
     "Product Status": "product_status",
-    "shipping date (DateOrders)": "shipping_date",
     "Shipping Mode": "shipping_mode"
     }
     df_filtered.rename(columns=rename_cols, inplace=True)
 
+    df_filtered['urgency_score'] = df_filtered['days_for_shipment_scheduled'] / df_filtered['order_item_quantity']
+
     df_filtered['order_month'] = df_filtered['order_date'].dt.month
-    df_filtered['shipping_month'] = df_filtered['shipping_date'].dt.month
 
     df_filtered['order_day'] = df_filtered['order_date'].dt.day_name()
-    df_filtered['shipping_day'] = df_filtered['shipping_date'].dt.day_name()
 
-    df_filtered = df_filtered.drop(['order_date', 'shipping_date'], axis=1)
+    df_filtered = df_filtered.drop(['order_date'], axis=1)
     df_filtered = df_filtered.dropna()
 
     df_filtered.to_csv(os.path.join(root_path, 'data/processed/clean_dataset.csv'), index=False)
@@ -77,8 +68,8 @@ def preprocess(dataset):
 
 def train_test_split_encode(df):
     days = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday']
-    ordinal_encoder = OrdinalEncoder(categories=[days, days])
-    df[['order_day', 'shipping_day']] = ordinal_encoder.fit_transform(df[['order_day', 'shipping_day']])
+    ordinal_encoder = OrdinalEncoder(categories=[days])
+    df[['order_day']] = ordinal_encoder.fit_transform(df[['order_day']])
 
     root_path = os.getcwd()
     X = df.drop('late_delivery_risk', axis=1)
@@ -88,7 +79,7 @@ def train_test_split_encode(df):
 
     categorical_columns = X_train.select_dtypes(include=['object', 'string', 'category']).columns.to_list()
 
-    target_encoder = TargetEncoder(cols=categorical_columns, smoothing=10.0)
+    target_encoder = TargetEncoder(cols=categorical_columns, smoothing=20.0)
 
     X_train_encoded = target_encoder.fit_transform(X_train, y_train)
     X_test_encoded = target_encoder.transform(X_test)

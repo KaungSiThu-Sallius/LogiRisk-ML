@@ -1,0 +1,15 @@
+# Data
+data/
+*.csv
+*.xlsx
+
+# MLflow / Models
+mlartifacts/
+mlruns/
+*.pkl
+*.joblib
+
+# Environment
+.env
+venv/
+__pycache__/
