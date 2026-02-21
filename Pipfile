@@ -4,9 +4,16 @@ verify_ssl = true
 name = "pypi"
 
 [packages]
+mlflow = "==3.8.0"
+scikit-learn = "*"
+optuna = "*"
+pandas = "*"
+category-encoders = "*"
+xgboost = "*"
 
 [dev-packages]
 ipykernel = "*"
 
 [requires]
-python_version = "3.11"
+python_version = "3.12"
+python_full_version = "3.12.7"
