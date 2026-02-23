@@ -10,6 +10,7 @@ optuna = "*"
 pandas = "*"
 category-encoders = "*"
 xgboost = "*"
+docker = "*"
 
 [dev-packages]
 ipykernel = "*"
