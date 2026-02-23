@@ -20,8 +20,8 @@ def preprocess(dataset):
     rm_cols = [ "Category Name", "Customer Id", "Customer City", "Customer Email", "Customer Fname", "Customer Lname", "Customer Password", "Customer Street", "Customer State",
             "Department Name", "Order Id", "Order Customer Id", "Order Item Cardprod Id", "Order Item Discount Rate", "Order Item Id", "Product Card Id",
             "Product Description", "Product Image", "Product Name", "Order Zipcode", "Days for shipping (real)", 'Delivery Status', "Order Status", "shipping date (DateOrders)",
-            "Order Item Profit Ratio", "Order Profit Per Order", "Sales per customer", "Order Item Total", "Benefit per order", "Sales", "Latitude", "Longitude",
-            'Customer Zipcode', 'Customer Country', 'Order City', 'Order Country', 'Order State', 'Order Item Discount', 'Order Region']
+            "Order Item Profit Ratio", "Order Profit Per Order", "Sales per customer", "Order Item Total", "Benefit per order", "Sales", "Latitude", "Longitude", "Order Item Product Price",
+            'Customer Zipcode', 'Customer Country', 'Order City', 'Order Country', 'Order State', 'Order Item Discount', 'Order Region', 'Product Status', 'Product Category Id']
     
     df_filtered = df.drop(rm_cols, axis=1)
 
@@ -42,11 +42,8 @@ def preprocess(dataset):
     "Longitude": "longitude",
     "Market": "market",
     "order date (DateOrders)": "order_date",
-    "Order Item Product Price": "order_item_product_price",
     "Order Item Quantity": "order_item_quantity",
-    "Product Category Id": "product_category_id",
     "Product Price": "product_price",
-    "Product Status": "product_status",
     "Shipping Mode": "shipping_mode"
     }
     df_filtered.rename(columns=rename_cols, inplace=True)
