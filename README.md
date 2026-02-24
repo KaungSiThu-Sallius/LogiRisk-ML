@@ -2,7 +2,7 @@
 
 **Live Demo:** [Go to LiveDemo](https://huggingface.co/spaces/kaungsithu-sallius/logistics-risk-auditor)
 
-**API Documentation:** [Google API Link](https://logirisk-api-716133749292.us-central1.run.app/predict)
+**API Documentation:** [Google API Link](https://logirisk-api-716133749292.us-central1.run.app/docs)
 
 ## 🖼️ System Diagram
 ![System Diagram](./system_dia.png)
