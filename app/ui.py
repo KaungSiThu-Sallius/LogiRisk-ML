@@ -22,7 +22,7 @@ st.markdown("Analyze supply chain risk scores in real-time.")
 uploaded_file = st.file_uploader("Upload Raw Logistics CSV", type=["csv"])
 
 if uploaded_file:
-    df = pd.read_csv(uploaded_file)
+    df = pd.read_csv(uploaded_file, encoding='latin1')
     
     missing = [col for col in RAW_COLUMNS if col not in df.columns]
     
