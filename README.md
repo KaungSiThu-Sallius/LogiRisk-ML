@@ -41,9 +41,33 @@ The system follows a modern, decoupled microservices architecture designed for s
 ---
 
 ## 📊 Key Features
+* **⚡ Preloaded Example Data:** Allows instant evaluation of the machine learning model and dashboard metrics using sample shipment data without needing to upload a CSV file.
 * **Automated Feature Engineering:** Programmatically calculates the `urgency_score` ($days\_scheduled \div quantity$) and extracts temporal insights (`order_month`, `order_day`) from raw date inputs.
-* **Bulk Auditing:** Processes 1,000+ rows via CSV upload with an integrated progress tracker for large-scale logistics logs.
-* **Executive Dashboard:** Real-time calculation of total **Revenue at Risk** and batch **Average Risk Score** to provide immediate business context.
+* **Bulk Auditing:** Processes shipment manifests with an integrated progress tracker for logistics logs.
+* **Executive Dashboard:** Real-time calculation of total **Revenue at Risk**, batch **Average Risk Score**, carrier breakdown charts, and high-risk shipment filtering.
+* **Exportable Audit Reports:** One-click download of the audited dataset with appended risk scores and classification badges.
+
+---
+
+## 📋 Required CSV Schema & Column Specifications
+
+If uploading a custom logistics manifest, the CSV file must contain the following **11 columns** (case-insensitive headers):
+
+| Column Name | Type | Description | Example Values |
+|---|---|---|---|
+| `type` | String | Transaction / Payment method | `TRANSFER`, `DEBIT`, `PAYMENT`, `CASH` |
+| `days_for_shipment_scheduled` | Integer | Scheduled delivery SLA (days) | `1`, `2`, `4` |
+| `category_id` | Integer | Product catalog category ID | `73` (Sporting), `17` (Cleats), `29` (Apparel) |
+| `customer_segment` | String | Purchaser account tier | `Consumer`, `Corporate`, `Home Office` |
+| `department_id` | Integer | Warehouse department ID | `2` (Fitness), `4` (Apparel), `6` (Outdoors) |
+| `market` | String | Geographic trade destination region | `Pacific Asia`, `USCA`, `Europe`, `LATAM`, `Africa` |
+| `order_item_quantity` | Integer | Quantity of units ordered | `1`, `2`, `3`, `4`, `5` |
+| `product_price` | Float | Unit price in USD ($) | `327.75`, `59.99`, `129.99`, `199.99` |
+| `shipping_mode` | String | Carrier logistics service tier | `Standard Class`, `Second Class`, `First Class`, `Same Day` |
+| `order_city` | String | Delivery destination city | `Bekasi`, `Caguas`, `Tokyo`, `Frankfurt`, `Los Angeles` |
+| `order_date` | String / Date | Order placement timestamp | `2024-02-15` or `YYYY-MM-DD` |
+
+> 📁 A pre-formatted template is available at [`data/sample_logistics_data.csv`](./data/sample_logistics_data.csv) or can be downloaded directly from the Streamlit UI.
 
 ---
 
@@ -55,6 +79,7 @@ The system follows a modern, decoupled microservices architecture designed for s
 
     ```bash
     git clone https://github.com/KaungSiThu-Sallius/LogiRisk-ML.git
+    cd LogiRisk-ML
     ```
 
 2. Install dependencies.
@@ -63,14 +88,14 @@ The system follows a modern, decoupled microservices architecture designed for s
     pip install -r requirements.txt
     ```
 
-3. Start the API
+3. Start the API backend (optional):
 
     ```bash
-    puvicorn app.main:app --reload
+    uvicorn app.main:app --reload
     ```
 
-4. Start the UI
+4. Start the Streamlit Dashboard:
 
     ```bash
-    streamlit run ui.py
+    streamlit run app.py
     ```

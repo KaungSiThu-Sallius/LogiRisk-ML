@@ -1,0 +1,21 @@
+type,days_for_shipment_scheduled,category_id,customer_segment,department_id,market,order_item_quantity,product_price,shipping_mode,order_city,order_date
+TRANSFER,4,73,Consumer,2,Pacific Asia,1,327.75,Standard Class,Bekasi,2024-02-15
+DEBIT,4,17,Consumer,4,USCA,3,59.99,Standard Class,Caguas,2024-02-18
+PAYMENT,2,29,Corporate,5,Europe,2,129.99,Second Class,Frankfurt,2024-02-20
+CASH,1,24,Home Office,4,LATAM,4,39.99,First Class,Sao Paulo,2024-02-22
+DEBIT,4,48,Consumer,6,Pacific Asia,1,199.99,Standard Class,Tokyo,2024-02-25
+TRANSFER,2,45,Corporate,6,USCA,5,49.98,Second Class,Los Angeles,2024-03-01
+PAYMENT,1,18,Consumer,4,Europe,1,89.95,Same Day,London,2024-03-05
+DEBIT,4,13,Home Office,2,Africa,2,250.0,Standard Class,Cairo,2024-03-08
+TRANSFER,1,73,Corporate,2,Pacific Asia,4,327.75,First Class,Singapore,2024-03-12
+CASH,4,46,Consumer,7,USCA,1,79.99,Standard Class,San Jose,2024-03-15
+PAYMENT,2,43,Home Office,6,Europe,3,119.5,Second Class,Paris,2024-03-18
+DEBIT,4,17,Consumer,4,Pacific Asia,1,59.99,Standard Class,Sydney,2024-03-22
+TRANSFER,1,29,Corporate,5,LATAM,5,129.99,Same Day,Bogota,2024-03-25
+PAYMENT,4,24,Consumer,4,Europe,2,39.99,Standard Class,Berlin,2024-03-28
+DEBIT,2,48,Home Office,6,USCA,1,199.99,Second Class,Chicago,2024-04-02
+TRANSFER,4,13,Consumer,2,Pacific Asia,2,250.0,Standard Class,Bikaner,2024-04-05
+CASH,1,18,Corporate,4,Europe,4,89.95,First Class,Madrid,2024-04-10
+PAYMENT,4,45,Consumer,6,LATAM,1,49.98,Standard Class,Lima,2024-04-15
+DEBIT,2,73,Home Office,2,USCA,1,327.75,Second Class,New York,2024-04-20
+TRANSFER,1,46,Consumer,7,Pacific Asia,3,79.99,Same Day,Bangkok,2024-04-25

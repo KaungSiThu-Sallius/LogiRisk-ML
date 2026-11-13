@@ -51,6 +51,20 @@ class LogiRisk_Predictor:
         risk_probability = self.model.predict_proba(df_filtered)[0][1]
         
         return float(risk_probability)
+
+    def predict_batch(self, raw_data: list):
+        df = pd.DataFrame(raw_data)
+        df_filtered = self._engineer_features(df)
+
+        df_filtered[['order_day']] = self.ordinal_encoder.transform(df_filtered[['order_day']])
+
+        df_filtered = self.target_encoder.transform(df_filtered)
+
+        df_filtered = df_filtered[self.feature_columns]
+
+        probabilities = self.model.predict_proba(df_filtered)[:, 1]
+        
+        return [float(p) for p in probabilities]
     
 if __name__ == '__main__':
     predictor = LogiRisk_Predictor()

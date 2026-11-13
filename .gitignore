@@ -1,6 +1,6 @@
 # Data
-data/
-*.csv
+data/*
+!data/sample_logistics_data.csv
 *.xlsx
 
 # MLflow / Models
