@@ -2,8 +2,6 @@
 
 **Live Demo:** [Go to Hugging Face Space](https://huggingface.co/spaces/kaungsithu-sallius/logistics-risk-auditor)
 
-**API Documentation:** [FastAPI Swagger UI](https://logirisk-api-716133749292.us-central1.run.app/docs)
-
 ---
 
 ## 🖼️ System Architecture Diagram

@@ -16,7 +16,7 @@ st.set_page_config(
 # ---------------------------------------------------------
 # Configuration & Schema Constants
 # ---------------------------------------------------------
-API_URL = "https://logirisk-api-716133749292.us-central1.run.app/predict"
+API_URL = os.environ.get("API_URL", "")
 
 RAW_COLUMNS = [
     'type', 'days_for_shipment_scheduled', 'category_id', 'customer_segment',
@@ -99,7 +99,6 @@ with st.sidebar:
     st.markdown("### 🔗 Architecture & Links")
     st.markdown("""
     - [GitHub Repository](https://github.com/KaungSiThu-Sallius/LogiRisk-ML)
-    - [FastAPI Docs (Swagger)](https://logirisk-api-716133749292.us-central1.run.app/docs)
     - [Hugging Face Space](https://huggingface.co/spaces/kaungsithu-sallius/logistics-risk-auditor)
     """)
 
@@ -235,10 +234,10 @@ if active_df is not None:
                 except Exception:
                     pass
 
-            # Tier 2: Remote API
-            if score is None and not api_failed:
+            # Tier 2: Remote API (optional if API_URL configured)
+            if score is None and API_URL and not api_failed:
                 try:
-                    r = requests.post(API_URL, json=row.to_dict(), timeout=4)
+                    r = requests.post(API_URL, json=row.to_dict(), timeout=2)
                     if r.status_code == 200:
                         data = r.json()
                         score = float(data.get("risk_score", 0.0))
@@ -302,7 +301,7 @@ if 'audited_df' in st.session_state:
     audited_df = st.session_state['audited_df']
     used_fallback = st.session_state.get('used_fallback', False)
 
-    if used_fallback:
+    if used_fallback and API_URL:
         st.info("ℹ️ *Audit computed via calibrated model engine (Cloud Run microservice is sleeping).*")
 
     st.divider()
@@ -379,4 +378,3 @@ if 'audited_df' in st.session_state:
         mime="text/csv",
         type="primary"
     )
-
